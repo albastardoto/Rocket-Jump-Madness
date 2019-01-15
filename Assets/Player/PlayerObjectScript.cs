@@ -10,6 +10,9 @@ public class PlayerObjectScript : NetworkBehaviour {
 	public Vector3 centerOfMass = new Vector3 (0, -0.5f, 0);
 	public GameObject RocketPrefab;
 	public float RocketSpeed = 20f;
+
+	[SyncVar]
+	public float RocketAngle;
 	private GameObject RocketLauncher;
 	// Use this for initialization
 	void Start () {
