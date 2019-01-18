@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class PlayerScript : NetworkBehaviour {
-
+	[SyncVar]
+	public float PlayerObjectHealth = 100f;
 	public GameObject PlayerObject;
 	void Start () {
 		if (!isLocalPlayer) {
@@ -17,5 +18,10 @@ public class PlayerScript : NetworkBehaviour {
 	void CmdSpawnUnit () {
 		GameObject PlayerUnit = Instantiate (PlayerObject);
 		NetworkServer.SpawnWithClientAuthority (PlayerUnit, connectionToClient);
+	}
+
+	[ClientRpc]
+	void RpcChangeHealth (float changeAmount) {
+		PlayerObjectHealth += changeAmount;
 	}
 }

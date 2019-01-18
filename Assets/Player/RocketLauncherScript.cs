@@ -12,8 +12,7 @@ public class RocketLauncherScript : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (POScript);
-		if (POScript.hasAuthority) {
+		if (POScript.hasAuthority && Application.isFocused) {
 			Vector2 direction = Input.mousePosition - Camera.main.WorldToScreenPoint (transform.position);
 			float angle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg;
 			POScript.RocketAngle = angle;

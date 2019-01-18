@@ -84,8 +84,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRadius: 5
-  explosionForce: 17000
-  forceDuration: 0.1
+  explosionForce: 10000
+  forceDuration: 0.2
   effectDuration: 0.3
 --- !u!114 &114660670228738468
 MonoBehaviour:

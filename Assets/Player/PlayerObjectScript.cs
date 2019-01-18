@@ -10,12 +10,15 @@ public class PlayerObjectScript : NetworkBehaviour {
 	public Vector3 centerOfMass = new Vector3 (0, -0.5f, 0);
 	public GameObject RocketPrefab;
 	public float RocketSpeed = 20f;
+	[SyncVar]
+	public float ObjectHealth = 100f;
 
 	[SyncVar]
 	public float RocketAngle;
 	private GameObject RocketLauncher;
 	// Use this for initialization
 	void Start () {
+		transform.Find ("Health").GetComponent<TextMesh> ().text = ObjectHealth.ToString ();
 		if (!isLocalPlayer) {
 			return;
 		}
@@ -24,17 +27,16 @@ public class PlayerObjectScript : NetworkBehaviour {
 		RocketLauncher = transform.GetChild (0).gameObject;
 	}
 
-	void OnDrawGizmos () {
-		Gizmos.color = Color.red;
-		Gizmos.DrawSphere (transform.TransformPoint (playerRigidBody.centerOfMass), .2f);
-	}
-
 	[Command]
 	public void CmdSpawnRocket (Vector3 spawnPos, Quaternion spawnAngle) {
 		Debug.Log ("InsideSpawnRocket");
-
 		GameObject Rocket = Instantiate (RocketPrefab, spawnPos, spawnAngle);
 		Rocket.GetComponent<Rigidbody> ().velocity = RocketSpeed * Rocket.GetComponent<Transform> ().right;
 		NetworkServer.Spawn (Rocket);
+	}
+
+	[ClientRpc]
+	void RpcChangeHealth (float changeAmount) {
+		ObjectHealth += changeAmount;
 	}
 }
